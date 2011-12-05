@@ -76,6 +76,10 @@ abstract class JSOM {
 		return $this;
 	} // set
 
+	public function save( $bForce = false ) {
+		return $this->_save( $bForce );
+	} // save
+
 	public function __construct( $sPath ) {
 		$this->_sFilePath = $sPath;
 		return file_exists( $this->_sFilePath ) ? $this->_load() : $this->_create();
