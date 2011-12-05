@@ -115,10 +115,12 @@ abstract class JSOM {
 	} // _isVersionned
 
 	private function _setVersionned( $sName, $mValue ) {
+		if( !isset( $this->_aData[ $sName ] ) )
+			$this->_aData[ $sName ] = array();
 		if( sizeof( $this->_aData[ $sName ] ) == JSOM::$_iVersionHistorySize ) {
 			ksort( $this->_aData[ $sName ] ); // probably useless
 			array_shift( $this->_aData[ $sName ] );	
-		}
+		} 
 		$this->_aData[ $sName ][ time() ] = $mValue;
 	} // _setVersionned
 
