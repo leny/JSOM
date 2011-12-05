@@ -100,10 +100,9 @@ abstract class JSOM {
 		return true;
 	} // _save
 
-	protected $_aData;
-	protected $_aJSONData;
-	protected $_aDefaultData;
-
+	protected $_aData = array();
+	protected $_aJSONData = array();
+	
 	protected $_sFilePath;
 	protected $_aStructure;
 
