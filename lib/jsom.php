@@ -45,7 +45,7 @@ abstract class JSOM {
 	} // changeVersionHistorySize
 
 	public function __get( $sName ) {
-		if( isset( $this->_aData[ $sName ] ) )
+		if( isset( $this->_aStructure[ $sName ] ) )
 			return $this->_isVersionned( $sName ) ? $this->_getVersionned( $sName ) : $this->_aData[ $sName ];
 		else {
 			trigger_error( "Property '" . $sName . "' doesn't exists on '" . get_called_class() . "' !", E_USER_NOTICE );	
@@ -54,7 +54,7 @@ abstract class JSOM {
 	} // __get
 
 	public function __set( $sName, $mValue ) {
-		if( isset( $this->_aData[ $sName ] ) ) {
+		if( isset( $this->_aStructure[ $sName ] ) ) {
 			if( $this->_isVersionned( $sName ) ) { 
 				$this->_setVersionned( $sName, $mValue );
 			} else { 
