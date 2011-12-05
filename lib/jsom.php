@@ -56,7 +56,7 @@ abstract class JSOM {
 	public function __set( $sName, $mValue ) {
 		if( isset( $this->_aData[ $sName ] ) ) {
 			if( $this->_isVersionned( $sName ) ) { 
-				$this->_setVersionned( $sName, $mValue ) 
+				$this->_setVersionned( $sName, $mValue );
 			} else { 
 				$this->_aData[ $sName ] = $mValue; 
 			}
