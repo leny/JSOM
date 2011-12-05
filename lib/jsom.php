@@ -45,11 +45,24 @@ abstract class JSOM {
 	} // changeVersionHistorySize
 
 	public function __get( $sName ) {
-		
+		if( isset( $this->_aData[ $sName ] ) )
+			return $this->_isVersionned( $sName ) ? $this->_getVersionned( $sName ) : $this->_aData[ $sName ];
+		else {
+			trigger_error( "Property '" . $sName . "' doesn't exists on '" . get_called_class() . "' !", E_USER_NOTICE );	
+			return null;
+		}
 	} // __get
 
 	public function __set( $sName, $mValue ) {
-		
+		if( isset( $this->_aData[ $sName ] ) ) {
+			if( $this->_isVersionned( $sName ) ) { 
+				$this->_setVersionned( $sName, $mValue ) 
+			} else { 
+				$this->_aData[ $sName ] = $mValue; 
+			}
+		} else {
+			trigger_error( "Property '" . $sName . "' doesn't exists on '" . get_called_class() . "' !", E_USER_NOTICE );	
+		}
 	} // __set
 
 	public function prop( $mKeyOrProps, $mValue = null ) {
@@ -58,26 +71,34 @@ abstract class JSOM {
 	} // set
 
 	public function __construct( $sPath ) {
-		$this->_sFilename = $sPath;
-		return file_exists( $sPath ) ? $this->_load() : $this->_create();
+		$this->_sFilePath = $sPath;
+		return file_exists( $this->_sFilePath ) ? $this->_load() : $this->_create();
 	} // __construct
 
-	protected function _create() {
-		
+	protected function _create( $aData=null ) {
+		$this->_aData = $aData;
+		return $this->_save( true );
 	} // _create
 
 	protected function _load() {
-		
+		$this->_aJSONData = json_decode( file_get_contents( $this->_sFilePath ), true );
+		$this->_aData = $this->_aJSONData;
+		return $this;
 	} // _load
 
-	protected function _save() {
-		
+	protected function _save( $bForce = false ) {
+		if( $this->_aJSONData === $this->_aData && !$bForce )
+			return true;
+		if( file_put_contents( json_encode( $this->_sFilePath ), $this->_aData ) === false )
+			return false && trigger_error( "Can't save file in '" . $this->_sFilePath . "' !", E_USER_ERROR );
+		return true;
 	} // _save
 
 	protected $_aData;
 	protected $_aJSONData;
+	protected $_aDefaultData;
 
-	protected $_sFilename;
+	protected $_sFilePath;
 	protected $_aStructure;
 
 	private function _isVersionned( $sName ) {
@@ -85,13 +106,17 @@ abstract class JSOM {
 	} // _isVersionned
 
 	private function _setVersionned( $sName, $mValue ) {
-		
+		if( sizeof( $this->_aData[ $sName ] ) == JSOM::$_iVersionHistorySize ) {
+			ksort( $this->_aData[ $sName ] ); // probably useless
+			array_shift( $this->_aData[ $sName ] );	
+		}
+		$this->_aData[ $sName ][ time() ] = $mValue;
 	} // _setVersionned
 
 	private function _getVersionned( $sName ) {
-		
+		ksort( $this->_aData[ $sName ] ); // probably useless
+		return end( $this->_aData[ $sName ] );
 	} // _getVersionned
 
 	private static $_iVersionHistorySize = 10;
-
 } // class:JSOM
