@@ -65,8 +65,6 @@ abstract class JSOM {
 		}
 	} // __set
 
-	public function prop( $mKeyOrProps, $mValue = null ) {
-		// same behaviour as .css in jquery
 	public function set( $mKeyOrProps, $mValue = null ) {
 		if( is_array( $mKeyOrProps ) ) {
 			foreach( $mKeyOrProps as $sProperty=>$mValue )
@@ -83,8 +81,8 @@ abstract class JSOM {
 		return file_exists( $this->_sFilePath ) ? $this->_load() : $this->_create();
 	} // __construct
 
-	protected function _create( $aData=null ) {
-		$this->_aData = $aData;
+	protected function _create() {
+		// should be overrided
 		return $this->_save( true );
 	} // _create
 
