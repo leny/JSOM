@@ -95,7 +95,7 @@ abstract class JSOM {
 	protected function _save( $bForce = false ) {
 		if( $this->_aJSONData === $this->_aData && !$bForce )
 			return true;
-		if( file_put_contents( json_encode( $this->_sFilePath ), $this->_aData ) === false )
+		if( file_put_contents( $this->_sFilePath, json_encode( $this->_aData ) ) === false )
 			return false && trigger_error( "Can't save file in '" . $this->_sFilePath . "' !", E_USER_ERROR );
 		return true;
 	} // _save
