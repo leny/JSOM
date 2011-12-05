@@ -36,11 +36,14 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 abstract class JSOM {
 	
+	public static function changeVersionHistorySize( $iSize ) {
+		JSOM::$_iVersionHistorySize = $iSize;
+	} // changeVersionHistorySize
+
 	public function __get( $sName ) {
 		
 	} // __get
@@ -50,7 +53,8 @@ abstract class JSOM {
 	} // __set
 
 	public function prop( $mKeyOrProps, $mValue = null ) {
-		// same behaviour as .css in jquery 		
+		// same behaviour as .css in jquery
+		return $this;
 	} // set
 
 	public function __construct( $sPath ) {
@@ -75,5 +79,19 @@ abstract class JSOM {
 
 	protected $_sFilename;
 	protected $_aStructure;
+
+	private function _isVersionned( $sName ) {
+		return $this->_aStructure[ $sName ] && true;
+	} // _isVersionned
+
+	private function _setVersionned( $sName, $mValue ) {
+		
+	} // _setVersionned
+
+	private function _getVersionned( $sName ) {
+		
+	} // _getVersionned
+
+	private static $_iVersionHistorySize = 10;
 
 } // class:JSOM
