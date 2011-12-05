@@ -67,6 +67,14 @@ abstract class JSOM {
 
 	public function prop( $mKeyOrProps, $mValue = null ) {
 		// same behaviour as .css in jquery
+	public function set( $mKeyOrProps, $mValue = null ) {
+		if( is_array( $mKeyOrProps ) ) {
+			foreach( $mKeyOrProps as $sProperty=>$mValue )
+				$this->$sProperty = $mValue;
+		} else {
+			$sProperty = strval( $mKeyOrProps );
+			$this->$sProperty = $mValue;
+		}
 		return $this;
 	} // set
 
