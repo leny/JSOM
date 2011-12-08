@@ -65,8 +65,13 @@ abstract class JSOM {
 		}
 	} // __set
 
-	public function getAllVersions( $sName ) {
+	public function getAllVersions( $sName, $bBackward=false ) {
 		if( $this->_isVersionned( $sName ) ) { 
+			if( $bBackward ) {
+				$aReturn = $this->_aData[ $sName ];	
+				krsort( $aReturn );
+				return $aReturn;
+			}
 			return $this->_aData[ $sName ];	
 		} else {
 			return false && trigger_error( "Property '" . $sName . "' is not a versionned property on '" . get_called_class() . "'' !", E_USER_NOTICE );
