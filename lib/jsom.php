@@ -71,7 +71,7 @@ abstract class JSOM {
 		if( $bStrict ) {
 			return isset( $this->_aData[ $sName ][ $iDate ] ) ? $this->_aData[ $sName ][ $iDate ] : null && trigger_error( "Property '" . $sName . "' doesn't have value for time code '" . $iDate . "' !", E_USER_NOTICE );
 		} else {
-			foreach( $this->getAllVersions( $sName, $bBackward ) as $iKey=>$mValue ) {
+			foreach( $this->getAllVersions( $sName, true ) as $iKey=>$mValue ) {
 				if( $iKey > $iDate ) continue;
 				return $mValue;
 			}
