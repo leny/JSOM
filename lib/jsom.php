@@ -145,7 +145,8 @@ abstract class JSOM {
 			$this->_aData[ $sName ] = array();
 		if( sizeof( $this->_aData[ $sName ] ) == JSOM::$_iVersionHistorySize ) {
 			ksort( $this->_aData[ $sName ] ); // probably useless
-			array_shift( $this->_aData[ $sName ] );	
+			reset( $this->_aData[ $sName ] );	
+			unset( $this->_aData[ $sName ][ key( $this->_aData[ $sName ] ) ] );
 		} 
 		$this->_aData[ $sName ][ time() ] = $mValue;
 	} // _setVersionned
