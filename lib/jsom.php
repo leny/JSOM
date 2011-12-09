@@ -65,6 +65,19 @@ abstract class JSOM {
 		}
 	} // __set
 
+	// the following two methods are shitty.
+	// TODO : delegate code to protected methods, cleaning
+	public function getVersion( $sName, $iDate, $bStrict=true ) {
+		if( $bStrict ) {
+			return isset( $this->_aData[ $sName ][ $iDate ] ) ? $this->_aData[ $sName ][ $iDate ] : null && trigger_error( "Property '" . $sName . "' doesn't have value for time code '" . $iDate . "' !", E_USER_NOTICE );
+		} else {
+			foreach( $this->getAllVersions( $sName, $bBackward ) as $iKey=>$mValue ) {
+				if( $iKey > $iDate ) continue;
+				return $mValue;
+			}
+		}
+	} // getVersion
+
 	public function getAllVersions( $sName, $bBackward=false ) {
 		if( $this->_isVersionned( $sName ) ) { 
 			if( $bBackward ) {
